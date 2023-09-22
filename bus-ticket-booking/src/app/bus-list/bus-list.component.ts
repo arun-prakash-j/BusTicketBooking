@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BusService } from '../services/bus.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
-import { CanComponentDeactivate } from '../guards/can-deactivate.guard';
 
 @Component({
   selector: 'app-bus-list',
@@ -27,15 +26,11 @@ export class BusListComponent implements OnInit {
   logout() {
     this.firebaseService.logout();
     this.isLogout.emit();
+    this.router.navigate(['/customer-login']);
   }
 
   viewSeats(busId: string) {
     // Navigate to the seat selection page with the selected bus information
     this.router.navigate(['/buses', busId, 'seats']);
-  }
-
-  canDeactivate(): boolean {
-    // Check if the user is logged out, allow navigation if logged out, prevent otherwise
-    return !this.firebaseService.isLoggedIn;
   }
 }

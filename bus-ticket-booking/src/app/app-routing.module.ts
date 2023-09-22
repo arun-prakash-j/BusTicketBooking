@@ -7,7 +7,6 @@ import { BusListComponent } from './bus-list/bus-list.component';
 import { SeatSelectionComponent } from './seat-selection/seat-selection.component';
 import { PassengerInfoComponent } from './passenger-info/passenger-info.component';
 import { BookingSummaryComponent } from './booking-summary/booking-summary.component';
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
 const routes: Routes = [
   { path: 'customer-login', component: CustomerLoginComponent },
@@ -16,7 +15,6 @@ const routes: Routes = [
   {
     path: 'buses',
     component: BusListComponent,
-    canDeactivate: [CanDeactivateGuard],
   },
   { path: 'buses/:busId/seats', component: SeatSelectionComponent },
   {
