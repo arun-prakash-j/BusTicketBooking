@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./customer-login.component.css'],
 })
 export class CustomerLoginComponent implements OnInit {
+  isSignedIn = false;
+  isSignUp = false;
+
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -21,19 +25,57 @@ export class CustomerLoginComponent implements OnInit {
     ]),
   });
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  signupForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private firebaseService: FirebaseService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    if (localStorage.getItem('user') !== null) this.isSignedIn = true;
+    else this.isSignedIn = false;
+  }
+  async onSignin() {
+    const { email, password } = this.loginForm.value;
+
+    await this.firebaseService.signin(email, password);
+    if (this.firebaseService.isLoggedIn) {
+      this.loginForm.reset();
+      this.isSignedIn = true;
+      alert('Successful Login');
+      this.router.navigate(['/buses']);
+    }
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.router.navigate(['/buses']);
-      console.log(this.loginForm.value);
+  async onSignup() {
+    const { email, password } = this.signupForm.value;
+
+    await this.firebaseService.signup(email, password);
+    if (this.firebaseService.isLoggedIn) {
+      this.signupForm.reset();
+      this.isSignedIn = true;
+      alert('Sign up successful. Please sign in using your credentials.');
     }
+  }
+
+  handleLogout() {
+    this.isSignedIn = false;
+  }
+  
+  toggleSignMode() {
+    this.isSignUp = !this.isSignUp; // Toggle between sign-in and sign-up modes
   }
 }
