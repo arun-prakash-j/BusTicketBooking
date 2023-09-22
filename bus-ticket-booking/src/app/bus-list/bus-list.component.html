@@ -1,1 +1,11 @@
-<p>bus-list works!</p>
+<div class="container mt-5">
+  <h2>Available Buses</h2>
+  <div *ngFor="let bus of buses" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Bus Number: {{ bus.busNumber }}</h5>
+      <p class="card-text">Departure Time: {{ bus.departureTime }}</p>
+      <p class="card-text">Destination: {{ bus.destination }}</p>
+      <button class="btn btn-primary" (click)="viewSeats(bus.id)">View Seats</button>
+    </div>
+  </div>
+</div>

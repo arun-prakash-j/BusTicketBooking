@@ -1,1 +1,58 @@
-<p>seat-selection works!</p>
+<div class="bus-layout">
+  <!-- Lower Deck -->
+  <div class="deck lower-deck">
+    <div class="sleeper-seats left">
+      <div *ngFor="let seat of lowerDeckSleeperSeats" class="seat sleeper">
+        <div
+          [class.seat]="true"
+          [class.booked]="seat.isBooked"
+          [class.selected]="seat.isSelected"
+          (click)="selectSeat(seat)"
+        >
+          {{ seat.id }}
+        </div>
+      </div>
+    </div>
+    <div class="seater-seats right">
+      <div *ngFor="let seat of lowerDeckSeaterSeats" class="seat seater">
+        <div
+          [class.seat]="true"
+          [class.booked]="seat.isBooked"
+          [class.selected]="seat.isSelected"
+          (click)="selectSeat(seat)"
+        >
+          {{ seat.id }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upper Deck -->
+  <div class="deck upper-deck">
+    <div class="sleeper-seats left">
+      <div *ngFor="let seat of upperDeckSleeperSeats" class="seat sleeper">
+        <div
+          [class.seat]="true"
+          [class.booked]="seat.isBooked"
+          [class.selected]="seat.isSelected"
+          (click)="selectSeat(seat)"
+        >
+          {{ seat.id }}
+        </div>
+      </div>
+    </div>
+    <div class="sleeper-seats right">
+      <div *ngFor="let seat of upperDeckSleeperSeats" class="seat sleeper">
+        <div
+          [class.seat]="true"
+          [class.booked]="seat.isBooked"
+          [class.selected]="seat.isSelected"
+          (click)="selectSeat(seat)"
+        >
+          {{ seat.id }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="proceedToPassengerInfo()">Proceed</button>

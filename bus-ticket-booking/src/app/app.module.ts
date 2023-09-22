@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { CustomerLoginComponent } from './customer-login/customer-login.component';
@@ -13,8 +15,24 @@ import { PassengerInfoComponent } from './passenger-info/passenger-info.componen
 import { BookingSummaryComponent } from './booking-summary/booking-summary.component';
 
 @NgModule({
-  declarations: [AppComponent, CustomerLoginComponent, AdminLoginComponent, AdminInterfaceComponent, BusListComponent, SeatSelectionComponent, PassengerInfoComponent, BookingSummaryComponent],
-  imports: [BrowserModule, AppRoutingModule, RouterModule],
+  declarations: [
+    AppComponent,
+    CustomerLoginComponent,
+    AdminLoginComponent,
+    AdminInterfaceComponent,
+    BusListComponent,
+    SeatSelectionComponent,
+    PassengerInfoComponent,
+    BookingSummaryComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule,
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
