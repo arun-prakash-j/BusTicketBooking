@@ -1,5 +1,6 @@
+<!-- 
 <div class="bus-layout">
-  <!-- Lower Deck -->
+  Lower Deck
   <div class="deck lower-deck">
     <div class="sleeper-seats left">
       <div *ngFor="let seat of lowerDeckSleeperSeats" class="seat sleeper">
@@ -27,7 +28,7 @@
     </div>
   </div>
 
-  <!-- Upper Deck -->
+  Upper Deck
   <div class="deck upper-deck">
     <div class="sleeper-seats left">
       <div *ngFor="let seat of upperDeckSleeperSeats" class="seat sleeper">
@@ -56,3 +57,456 @@
   </div>
 </div>
 <button (click)="proceedToPassengerInfo()">Proceed</button>
+-->
+<div class="container">
+  <svg width="400" height="600">
+    <!-- Draw bus background -->
+
+    <g transform="rotate(90, 200, 200)">
+      <rect
+        x="20"
+        y="55"
+        width="550"
+        height="220"
+        rx="20"
+        ry="20"
+        fill="#f2f2f2"
+      />
+
+      <!-- Draw bus seats -->
+
+      <g id="seats">
+        <!-- Row 1 -->
+
+        <rect
+          x="75"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="125"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="225"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="325"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="425"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+        <rect
+          x="525"
+          y="70"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <!-- Row 2 -->
+
+        <rect
+          x="75"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="125"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="225"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="325"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="425"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="525"
+          y="110"
+          width="30"
+          height="30"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <!-- Row 3 -->
+
+        <rect
+          x="75"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+      </g>
+    </g>
+  </svg>
+
+  <svg width="400" height="600">
+    <!-- Draw bus background -->
+
+    <g transform="rotate(90,200, 200)">
+      <rect
+        x="20"
+        y="55"
+        width="550"
+        height="220"
+        rx="20"
+        ry="20"
+        fill="#f2f2f2"
+      />
+
+      <!-- Draw bus seats -->
+
+      <g id="seats">
+        <!-- Row 1 -->
+
+        <rect
+          x="75"
+          y="70"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="70"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="70"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="70"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="70"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <!-- Row 2 -->
+
+        <rect
+          x="75"
+          y="110"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="110"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="110"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="110"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="110"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <!-- Row 3 -->
+
+        <rect
+          x="75"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="175"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="275"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="375"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+
+        <rect
+          x="475"
+          y="220"
+          width="75"
+          height="35"
+          rx="5"
+          ry="5"
+          fill="#78c2ad"
+        />
+      </g>
+    </g>
+  </svg>
+</div>

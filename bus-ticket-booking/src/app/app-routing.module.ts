@@ -7,22 +7,40 @@ import { BusListComponent } from './bus-list/bus-list.component';
 import { SeatSelectionComponent } from './seat-selection/seat-selection.component';
 import { PassengerInfoComponent } from './passenger-info/passenger-info.component';
 import { BookingSummaryComponent } from './booking-summary/booking-summary.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'customer-login', component: CustomerLoginComponent },
+  {
+    path: 'customer-login',
+    component: CustomerLoginComponent,
+  },
   { path: 'admin-login', component: AdminLoginComponent },
-  { path: 'admin', component: AdminInterfaceComponent },
+  {
+    path: 'admin',
+    component: AdminInterfaceComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'buses',
     component: BusListComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'buses/:busId/seats', component: SeatSelectionComponent },
+  {
+    path: 'buses/:busId/seats',
+    component: SeatSelectionComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'buses/:busId/seats/:seatId/passenger-info',
     component: PassengerInfoComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'booking-summary', component: BookingSummaryComponent },
-  // Add more routes as needed
+  {
+    path: 'booking-summary',
+    component: BookingSummaryComponent,
+    canActivate: [AuthGuard],
+  },
+
   { path: '', redirectTo: '/customer-login', pathMatch: 'full' },
 ];
 

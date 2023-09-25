@@ -1,54 +1,54 @@
-/* Styles for the bus layout */
+/* Styles for the bus layout
 .bus-layout {
   display: flex;
-  justify-content: space-around; /* Adjust as needed */
+  justify-content: space-around; Adjust as needed
   
 }
 
 .deck {
 
-  gap: 10px; /* Adjust spacing between decks */
+  gap: 10px; Adjust spacing between decks
   border: 5px solid #aaa;
 }
 
 .lower-deck {
   display: grid;
-  /* flex-direction: column; */
+  flex-direction: column;
   align-items: center;
   grid-template-columns: repeat(2, 1fr);
 }
 
 .upper-deck {
   display: grid;
-  /* flex-direction: column; */
+  flex-direction: column;
   align-items: center;
   grid-template-columns: repeat(4, 2fr);
 }
 
-/* Styles for sleeper seats */
+Styles for sleeper seats
 .sleeper-seats {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* Adjust vertical spacing between seats */
+  gap: 10px; Adjust vertical spacing between seats
 }
 
-/* Styles for seater seats */
+Styles for seater seats
 .seater-seats {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns for seater seats */
-  gap: 5px; /* Adjust spacing between seats */
+  grid-template-columns: repeat(2, 1fr); Two columns for seater seats
+  gap: 5px; Adjust spacing between seats
 }
 
-/* Styles for individual seats */
+Styles for individual seats
 .seat {
   width: 40px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #ccc; Adjust seat color as needed */
-  /* border: 1px solid #aaa; */
+  background-color: #ccc; Adjust seat color as needed
+  border: 1px solid #aaa;
 }
 
 .seat.booked {
@@ -56,10 +56,18 @@
 }
 
 .sleeper {
-  background-color: #ffb1b1; /* Red for sleeper seats */
+  background-color: #ffb1b1; Red for sleeper seats
   padding: 44px 22px;
 }
 
 .seater {
-  background-color: #b0ffb0; /* Green for seater seats */
+  background-color: #b0ffb0; Green for seater seats
+}
+*/
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set the container height to the viewport height */
 }

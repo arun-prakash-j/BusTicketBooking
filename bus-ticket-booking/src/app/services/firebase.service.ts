@@ -6,25 +6,41 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class FirebaseService {
   isLoggedIn = false;
-  constructor(public firebaseAuth: AngularFireAuth) {}
+
+  constructor(public firebaseAuth: AngularFireAuth) {
+    firebaseAuth.authState.subscribe((user) => {
+      this.isLoggedIn = !!user;
+    });
+  }
+
   async signin(email: string, password: string) {
     await this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         this.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(res.user));
+        // localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('isLoggedIn', 'true');
       });
   }
+
   async signup(email: string, password: string) {
     await this.firebaseAuth
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
         this.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(res.user));
+        // localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('isLoggedIn', 'true');
       });
   }
+
   logout() {
     this.firebaseAuth.signOut();
-    localStorage.removeItem('user');
+    this.isLoggedIn = false;
+    // localStorage.removeItem('user');
+    localStorage.setItem('isLoggedIn', 'false');
+  }
+
+  isAuthenticated(): boolean {
+    return this.isLoggedIn;
   }
 }

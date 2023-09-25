@@ -25,12 +25,17 @@ export class CustomerLoginComponent implements OnInit {
     ]),
   });
 
-  signupForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
+  signupForm: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        ),
+      ],
+    ],
   });
 
   constructor(
@@ -40,10 +45,10 @@ export class CustomerLoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    // this.loginForm = this.fb.group({
+    //   email: ['', [Validators.required, Validators.email]],
+    //   password: ['', [Validators.required, Validators.minLength(6)]],
+    // });
 
     if (localStorage.getItem('user') !== null) this.isSignedIn = true;
     else this.isSignedIn = false;
@@ -71,10 +76,6 @@ export class CustomerLoginComponent implements OnInit {
     }
   }
 
-  handleLogout() {
-    this.isSignedIn = false;
-  }
-  
   toggleSignMode() {
     this.isSignUp = !this.isSignUp; // Toggle between sign-in and sign-up modes
   }
