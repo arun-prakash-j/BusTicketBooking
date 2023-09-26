@@ -60,7 +60,6 @@ export class CustomerLoginComponent implements OnInit {
     if (this.firebaseService.isLoggedIn) {
       this.loginForm.reset();
       this.isSignedIn = true;
-      alert('Successful Login');
       this.router.navigate(['/buses']);
     }
   }

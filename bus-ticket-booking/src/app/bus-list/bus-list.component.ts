@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BusService } from '../services/bus.service';
+
 import { Router } from '@angular/router';
 
-import { getDatabase } from 'firebase/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-bus-list',
@@ -12,17 +13,47 @@ import { getDatabase } from 'firebase/database';
 export class BusListComponent implements OnInit {
   buses: any[] = [];
 
-  database = getDatabase();
-
-  constructor(private busService: BusService, private router: Router) {}
+  constructor(private router: Router, private database: AngularFireDatabase) {}
 
   ngOnInit(): void {
-    // Fetch the list of available buses using the BusService
-    this.buses = this.busService.getAvailableBuses();
+    this.database
+      .object('/Bus Details')
+      .valueChanges()
+      .pipe(map((buses: any) => buses as any[]))
+      .subscribe((buses: any[]) => {
+        console.log('Fetched buses:', buses);
+        this.buses = buses
+          .filter((bus) => this.isValidBus(bus))
+          .map((bus: any) => {
+            return {
+              busNo: bus['BusNo'],
+              arriveTime: bus['ArriveTime'],
+              departTime: bus['DepartTime'],
+              from: bus['From'],
+              to: bus['To'],
+              minPrice: bus['MinPrice'],
+              seatsLeft: bus['SeatsLeft'],
+              type: bus['Type'],
+            };
+          });
+      });
   }
 
-  viewSeats(busId: string) {
-    // Navigate to the seat selection page with the selected bus information
-    this.router.navigate(['/buses', busId, 'seats']);
+  isValidBus(bus: any): boolean {
+    return (
+      bus &&
+      typeof bus['BusNo'] === 'string' &&
+      typeof bus['ArriveTime'] === 'string' &&
+      typeof bus['DepartTime'] === 'string' &&
+      typeof bus['From'] === 'string' &&
+      typeof bus['To'] === 'string' &&
+      typeof bus['MinPrice'] === 'number' &&
+      typeof bus['SeatsLeft'] === 'number' &&
+      typeof bus['Type'] === 'string'
+    );
+  }
+
+  viewSeats(busNo: string) {
+    this.router.navigate(['/buses', busNo, 'seats']);
   }
 }

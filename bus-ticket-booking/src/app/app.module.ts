@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire/compat';
-import { AuthModule, provideAuth,getAuth } from '@angular/fire/auth';
+import { AuthModule, provideAuth, getAuth } from '@angular/fire/auth';
 
 import { AppComponent } from './app.component';
 import { CustomerLoginComponent } from './customer-login/customer-login.component';
@@ -18,9 +18,11 @@ import { PassengerInfoComponent } from './passenger-info/passenger-info.componen
 import { BookingSummaryComponent } from './booking-summary/booking-summary.component';
 import { FirebaseService } from './services/firebase.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 @NgModule({
   declarations: [
@@ -50,8 +52,12 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
     }),
     AngularFireAuthModule,
     AuthModule,
+    AngularFireDatabaseModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
+    provideAuth(() => {
+      const auth = getAuth();
+      return auth;
+    }),
     provideDatabase(() => getDatabase()),
   ],
   providers: [FirebaseService],
