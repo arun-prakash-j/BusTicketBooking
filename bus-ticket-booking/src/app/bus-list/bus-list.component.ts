@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 })
 export class BusListComponent implements OnInit {
   buses: any[] = [];
+  selectedBusId: string | null = null;
 
   constructor(private router: Router, private database: AngularFireDatabase) {}
 
@@ -54,6 +55,7 @@ export class BusListComponent implements OnInit {
   }
 
   viewSeats(busNo: string) {
+    this.selectedBusId = busNo;
     this.router.navigate(['/buses', busNo, 'seats']);
   }
 }

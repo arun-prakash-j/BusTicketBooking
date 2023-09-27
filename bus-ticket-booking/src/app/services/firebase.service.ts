@@ -16,9 +16,9 @@ export class FirebaseService {
   async signin(email: string, password: string) {
     await this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(() => {
         this.isLoggedIn = true;
-        // localStorage.setItem('user', JSON.stringify(res.user));
+
         localStorage.setItem('isLoggedIn', 'true');
       });
   }
@@ -26,9 +26,9 @@ export class FirebaseService {
   async signup(email: string, password: string) {
     await this.firebaseAuth
       .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(() => {
         this.isLoggedIn = true;
-        // localStorage.setItem('user', JSON.stringify(res.user));
+
         localStorage.setItem('isLoggedIn', 'true');
       });
   }
@@ -36,7 +36,7 @@ export class FirebaseService {
   logout() {
     this.firebaseAuth.signOut();
     this.isLoggedIn = false;
-    // localStorage.removeItem('user');
+
     localStorage.setItem('isLoggedIn', 'false');
   }
 

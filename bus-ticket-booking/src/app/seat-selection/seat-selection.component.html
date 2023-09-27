@@ -1,6 +1,9 @@
 <div class="container">
+  <!-- Lower Deck Seats -->
   <svg width="400" height="600">
-    <!-- Draw bus background -->
+    <text x="240" y="12" font-size="16" font-weight="bold" text-anchor="middle">
+      LOWER DECK
+    </text>
     <g transform="rotate(90, 200, 200)">
       <rect
         x="20"
@@ -12,27 +15,37 @@
         fill="#f2f2f2"
       />
 
-      <!-- Draw bus seats -->
-      <g id="seats">
-        <!-- Loop through seats and draw them -->
-        <ng-container *ngFor="let seat of seats">
+      <g id="lowerDeckSeats">
+        <ng-container *ngFor="let seat of lowerDeckSeats">
           <rect
             [attr.x]="seat.x"
             [attr.y]="seat.y"
-            width="30"
-            height="30"
+            [attr.width]="seat.width"
+            [attr.height]="seat.height"
             rx="5"
             ry="5"
             [attr.fill]="getSeatColor(seat)"
             (click)="selectSeat(seat)"
           />
+          <text
+            [attr.x]="seat.x + 10"
+            [attr.y]="seat.y + 20"
+            font-size="12"
+            font-weight="bold"
+            fill="black"
+          >
+            {{ seat.id }}
+          </text>
         </ng-container>
       </g>
     </g>
   </svg>
-  <svg width="400" height="600">
-    <!-- Draw bus background -->
 
+  <!-- Upper Deck Seats -->
+  <svg width="400" height="600">
+    <text x="240" y="12" font-size="16" font-weight="bold" text-anchor="middle">
+      UPPER DECK
+    </text>
     <g transform="rotate(90,200, 200)">
       <rect
         x="20"
@@ -43,6 +56,59 @@
         ry="20"
         fill="#f2f2f2"
       />
+      <g id="upperDeckSeats">
+        <ng-container *ngFor="let seat of upperDeckSeats">
+          <rect
+            [attr.x]="seat.x"
+            [attr.y]="seat.y"
+            [attr.width]="seat.width"
+            [attr.height]="seat.height"
+            rx="5"
+            ry="5"
+            [attr.fill]="getSeatColor(seat)"
+            (click)="selectSeat(seat)"
+          />
+          <text
+            [attr.x]="seat.x + 15"
+            [attr.y]="seat.y + 20"
+            font-size="12"
+            font-weight="bold"
+            fill="black"
+          >
+            {{ seat.id }}
+          </text>
+        </ng-container>
+      </g>
     </g>
   </svg>
+</div>
+
+<div class="fare-details">
+  <h3>Fare Details</h3>
+  <table>
+    <tr>
+      <th>Seat Type</th>
+      <th>Number of Seats</th>
+      <th>Price per Seat</th>
+      <th>Total Price</th>
+    </tr>
+    <tr>
+      <td>Seater</td>
+      <td>{{ seaterCount }}</td>
+      <td>{{ seaterPrice || 0 }}</td>
+      <td>{{ seaterCount * seaterPrice || 0 }}</td>
+    </tr>
+    <tr>
+      <td>Sleeper</td>
+      <td>{{ sleeperCount }}</td>
+      <td>{{ sleeperPrice || 0 }}</td>
+      <td>{{ sleeperCount * sleeperPrice || 0 }}</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td>{{ selectedSeats.length }}</td>
+      <td></td>
+      <td>{{ totalFare }}</td>
+    </tr>
+  </table>
 </div>

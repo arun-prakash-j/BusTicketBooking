@@ -7,6 +7,9 @@ export class Seat {
   isSelected?: boolean;
   x: number;
   y: number;
+  width: number;
+  height: number;
+  price: number;
 
   constructor(
     id: number,
@@ -23,5 +26,8 @@ export class Seat {
     this.isSelected = false;
     this.x = 0;
     this.y = 0;
+    this.width = 0;
+    this.height = 0;
+    this.price = 0;
   }
 }
