@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { ActivatedRoute, Params } from '@angular/router';
+
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { SeatService } from '../services/seat.service';
 import { Seat } from '../shared/seat.model';
 
 @Component({
@@ -25,11 +27,28 @@ export class SeatSelectionComponent {
   seaterPrice: number = 0;
   sleeperPrice: number = 0;
 
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute) {}
+  constructor(
+    private db: AngularFireDatabase,
+    private route: ActivatedRoute,
+    private router: Router,
+    private seatService: SeatService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.selectedBusId = params['busNo'];
+
+      // Preserving the seat colours
+      const selectedSeatIdsJson = localStorage.getItem('selectedSeats');
+      const selectedSeatIds = selectedSeatIdsJson
+        ? JSON.parse(selectedSeatIdsJson)
+        : [];
+
+      if (selectedSeatIds.length > 0) {
+        this.selectedSeats = this.seats.filter((seat) =>
+          selectedSeatIds.includes(String(seat.id))
+        );
+      }
 
       if (this.selectedBusId) {
         const firebasePath = `/Seats/${this.selectedBusId}`;
@@ -38,7 +57,6 @@ export class SeatSelectionComponent {
           .object(firebasePath)
           .valueChanges()
           .subscribe((busSeatsData: any) => {
-            console.log(busSeatsData.lowerDeck);
             if (busSeatsData) {
               this.lowerDeckSeats = busSeatsData.lowerDeck;
               this.upperDeckSeats = busSeatsData.upperDeck;
@@ -51,17 +69,15 @@ export class SeatSelectionComponent {
   }
 
   calculateSeatPrices(): void {
-    // Retrieve seater prices from Firebase
     const seaterPricesRef = `/Seats/${this.selectedBusId}/lowerDeck`;
     this.db
       .object(seaterPricesRef)
       .valueChanges()
       .subscribe((seaterPricesData: any) => {
-        console.log("sfasfs")
         if (seaterPricesData) {
-          const seaterPrices = Object.values(seaterPricesData);
-        
-          // this.seaterPrice = seaterPrices[0] || 0;
+          const seaterPrices = Object.values(seaterPricesData) as number[];
+          console.log('sfasfs', seaterPricesData['0'].price);
+          this.seaterPrices = seaterPrices || [];
           this.seaterCount = this.selectedSeats.filter(
             (seat) => seat.type === 'seater'
           ).length;
@@ -75,8 +91,8 @@ export class SeatSelectionComponent {
       .valueChanges()
       .subscribe((sleeperPricesData: any) => {
         if (sleeperPricesData) {
-          const sleeperPrices = Object.values(sleeperPricesData);
-          // this.sleeperPrice = sleeperPrices[0] || 0;
+          const sleeperPrices = Object.values(sleeperPricesData) as number[];
+          this.sleeperPrices = sleeperPrices || [];
           this.sleeperCount = this.selectedSeats.filter(
             (seat) => seat.type === 'sleeper'
           ).length;
@@ -87,24 +103,36 @@ export class SeatSelectionComponent {
 
   selectSeat(seat: Seat): void {
     if (!seat.isBooked) {
-      seat.isSelected = !seat.isSelected;
+      const selectedSeatIds = this.seatService.getSelectedSeatNumbers();
 
-      if (seat.isSelected) {
-        this.selectedSeats.push(seat);
+      if (selectedSeatIds.length < 5 || seat.isSelected) {
+        seat.isSelected = !seat.isSelected;
+        if (seat.isSelected) {
+          this.seatService.addSelectedSeatNumber(String(seat.id));
+        } else {
+          this.seatService.removeSelectedSeatNumber(String(seat.id));
+        }
+        // localStorage.setItem(
+        //   'selectedSeats',
+        //   JSON.stringify(this.seatService.getSelectedSeatNumbers())
+        // );
+        this.calculateTotal();
       } else {
-        this.selectedSeats = this.selectedSeats.filter(
-          (selectedSeat) => selectedSeat.id !== seat.id
-        );
+        // Display an error message or take appropriate action
+        console.log('Maximum seat limit (5) reached');
       }
-      console.log(this.selectedSeats);
 
-      this.calculateTotal();
+      this.saveSelectedSeatsToLocalStorage();
     }
+  }
+
+  saveSelectedSeatsToLocalStorage(): void {
+    const selectedSeatIds = this.selectedSeats.map((seat) => String(seat.id));
+    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeatIds));
   }
 
   calculateTotal(): void {
     this.totalFare = this.selectedSeats.reduce((total, seat) => {
-      console.log(total);
       return (
         total +
         (seat.type === 'seater'
@@ -119,5 +147,19 @@ export class SeatSelectionComponent {
       return seat.gender === 'male' ? 'gray' : 'pink';
     }
     return seat.isSelected ? 'green' : 'white';
+  }
+
+  proceedToPassengerInfo() {
+    const selectedSeatIds = this.seatService.getSelectedSeatNumbers();
+    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeatIds));
+
+    console.log('Selected Seats', selectedSeatIds);
+    this.router.navigate([
+      'buses',
+      this.selectedBusId,
+      'seats',
+      selectedSeatIds.join(','),
+      'passenger-info',
+    ]);
   }
 }

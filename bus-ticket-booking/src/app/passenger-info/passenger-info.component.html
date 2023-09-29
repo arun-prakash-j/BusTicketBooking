@@ -1,1 +1,20 @@
-<p>passenger-info works!</p>
+<button class="btn btn-primary" (click)="backToSeatSelectionPage()">Back</button>
+<div *ngFor="let formGroup of passengerForms; let i = index">
+  <form [formGroup]="formGroup">
+    <label for="name{{ i }}">Name:</label>
+    <input type="text" id="name{{ i }}" formControlName="name" />
+
+    <!-- Display validation errors using the safe navigation operator -->
+    <div *ngIf="formGroup.get('name')?.hasError('required')">
+      Name is required
+    </div>
+    <div *ngIf="formGroup.get('name')?.hasError('minlength')">
+      Name should be at least 3 characters
+    </div>
+    <div *ngIf="formGroup.get('name')?.hasError('pattern')">
+      Invalid name format
+    </div>
+
+    <!-- Add age and gender fields and validation messages similarly -->
+  </form>
+</div>

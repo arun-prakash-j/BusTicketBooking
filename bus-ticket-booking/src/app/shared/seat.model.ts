@@ -1,3 +1,5 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 export class Seat {
   id: number;
   deck: string;
@@ -10,6 +12,10 @@ export class Seat {
   width: number;
   height: number;
   price: number;
+  passengerName: string;
+  passengerAge: number;
+  passengerGender: string;
+  passengerForm: FormGroup;
 
   constructor(
     id: number,
@@ -29,5 +35,17 @@ export class Seat {
     this.width = 0;
     this.height = 0;
     this.price = 0;
+    this.passengerName = '';
+    this.passengerAge = 0;
+    this.passengerGender = '';
+    this.passengerForm = new FormGroup({
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(/^[A-Za-z\s]+$/),
+      ]),
+      age: new FormControl('', [Validators.required, Validators.min(5)]),
+      gender: new FormControl('', Validators.required),
+    });
   }
 }

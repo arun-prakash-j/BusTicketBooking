@@ -83,32 +83,4 @@
   </svg>
 </div>
 
-<div class="fare-details">
-  <h3>Fare Details</h3>
-  <table>
-    <tr>
-      <th>Seat Type</th>
-      <th>Number of Seats</th>
-      <th>Price per Seat</th>
-      <th>Total Price</th>
-    </tr>
-    <tr>
-      <td>Seater</td>
-      <td>{{ seaterCount }}</td>
-      <td>{{ seaterPrice || 0 }}</td>
-      <td>{{ seaterCount * seaterPrice || 0 }}</td>
-    </tr>
-    <tr>
-      <td>Sleeper</td>
-      <td>{{ sleeperCount }}</td>
-      <td>{{ sleeperPrice || 0 }}</td>
-      <td>{{ sleeperCount * sleeperPrice || 0 }}</td>
-    </tr>
-    <tr>
-      <td>Total</td>
-      <td>{{ selectedSeats.length }}</td>
-      <td></td>
-      <td>{{ totalFare }}</td>
-    </tr>
-  </table>
-</div>
+<button class="btn btn-primary" (click)="proceedToPassengerInfo()">Proceed</button>

@@ -31,7 +31,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'buses/:busNo/seats/:seatId/passenger-info',
+    path: 'buses/:busNo/seats/:seatIds/passenger-info',
     component: PassengerInfoComponent,
     canActivate: [AuthGuard],
   },
