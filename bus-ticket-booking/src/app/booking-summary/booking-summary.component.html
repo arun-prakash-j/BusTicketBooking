@@ -1,1 +1,26 @@
-<p>booking-summary works!</p>
+<div class="container mt-4">
+  <button class="btn btn-primary mb-4" (click)="editDetails()">Edit Details</button>
+
+  <h2>Booking Summary</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Seat Number</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userData">
+        <td>{{ user.seatId }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.gender }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-primary" (click)="payAndStoreData()">Pay and Store Data</button>
+</div>
