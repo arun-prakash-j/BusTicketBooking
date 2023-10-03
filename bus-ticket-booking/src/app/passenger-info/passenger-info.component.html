@@ -128,3 +128,15 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="showConfirmationDialog" class="confirmation-dialog">
+  <div class="confirmation-content">
+    <p>
+      Are you sure to continue?
+      <br />
+      Note: Once you press YES, you cannot edit the data you entered.
+    </p>
+    <button class="btn btn-primary" (click)="confirm()">Yes</button>
+    <button class="btn btn-secondary" (click)="cancel()">No</button>
+  </div>
+</div>

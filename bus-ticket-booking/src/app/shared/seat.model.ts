@@ -14,7 +14,7 @@ export class Seat {
   price: number;
   passengerName: string;
   passengerAge: number;
-  passengerGender: string;
+  busNo: string;
   passengerForm: FormGroup;
 
   constructor(
@@ -22,7 +22,8 @@ export class Seat {
     deck: string,
     type: string,
     isBooked: boolean,
-    gender: string
+    gender: string,
+    busNo: string
   ) {
     this.id = id;
     this.deck = deck;
@@ -30,6 +31,7 @@ export class Seat {
     this.isBooked = isBooked;
     this.gender = gender;
     this.isSelected = false;
+    this.busNo = busNo;
     this.x = 0;
     this.y = 0;
     this.width = 0;
@@ -37,7 +39,6 @@ export class Seat {
     this.price = 0;
     this.passengerName = '';
     this.passengerAge = 0;
-    this.passengerGender = '';
     this.passengerForm = new FormGroup({
       name: new FormControl('', [
         Validators.required,

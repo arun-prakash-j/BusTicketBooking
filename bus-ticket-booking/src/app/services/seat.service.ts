@@ -29,7 +29,6 @@ export class SeatService {
 
   clearSelectedSeatsInLocalStorage(): void {
     console.log('inside service');
-    // localStorage.removeItem('selectedSeats');
     this.selectedSeatNumbers = [];
   }
 }

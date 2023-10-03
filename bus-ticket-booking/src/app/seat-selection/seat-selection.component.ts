@@ -11,13 +11,11 @@ import { Seat } from '../shared/seat.model';
 })
 export class SeatSelectionComponent implements OnInit {
   selectedBusId: string = '';
-  selectedSeats: Seat[] = [];
   selectedSeatIds: Seat[] = [];
   totalFare: number = 0;
   lowerDeckSeats: Seat[] = [];
   upperDeckSeats: Seat[] = [];
-  // seaterPrices: number[] = [];
-  // sleeperPrices: number[] = [];
+
   noSeatsSelected: boolean = true;
 
   totalPrice: number = 0;
@@ -49,7 +47,6 @@ export class SeatSelectionComponent implements OnInit {
     });
   }
 
-
   selectSeat(seat: Seat): void {
     if (!seat.isBooked) {
       if (this.selectedSeatIds.length < 5 || seat.isSelected) {
@@ -72,14 +69,63 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.totalPrice = this.selectedSeatIds.reduce((total, seat) => total + seat.price, 0);
+    this.totalPrice = this.selectedSeatIds.reduce(
+      (total, seat) => total + seat.price,
+      0
+    );
   }
 
   getSeatColor(seat: Seat): string {
     if (seat.isBooked) {
       return seat.gender === 'male' ? 'lightblue' : 'pink';
     }
+
+    if (
+      this.isSeatBooked(seat) ||
+      this.isAdjacentSeatBooked(seat, -1) ||
+      this.isAdjacentSeatBooked(seat, 1)
+    ) {
+      return 'pink'; // Highlight if the seat or adjacent seats are booked
+    }
+
     return seat.isSelected ? 'green' : 'white';
+  }
+
+  isSeatBooked(seat: Seat | undefined): boolean {
+    return seat ? seat.isBooked : false;
+  }
+
+  isAdjacentSeatBooked(seat: Seat, offset: number): boolean {
+    if (!seat || !seat.id) {
+      return false;
+    }
+
+    // Determine the maximum seat number in a row (e.g., 2 for your example layout)
+    const seatsPerRow = 2;
+
+    // Calculate the row number based on the seat number and seats per row
+    const currentRow = Math.floor(seat.id / seatsPerRow);
+
+    // Calculate the adjacent seat number in the same row
+    const adjacentSeatInRow = seat.id + offset;
+
+    // Check if the adjacent seat is booked in the same deck and row
+    const isAdjacentSeatBooked =
+      seat.deck === 'lowerDeck'
+        ? this.lowerDeckSeats.some(
+            (s) =>
+              s.id === adjacentSeatInRow &&
+              Math.floor(s.id - 1/ seatsPerRow) === currentRow &&
+              s.isBooked
+          )
+        : this.upperDeckSeats.some(
+            (s) =>
+              s.id === adjacentSeatInRow &&
+              Math.floor(s.id / seatsPerRow) === currentRow &&
+              s.isBooked
+          );
+
+    return isAdjacentSeatBooked;
   }
 
   proceedToPassengerInfo() {

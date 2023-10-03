@@ -1,6 +1,4 @@
 <div class="container mt-4">
-  <button class="btn btn-primary mb-4" (click)="editDetails()">Edit Details</button>
-
   <h2>Booking Summary</h2>
 
   <table class="table">
@@ -22,5 +20,48 @@
     </tbody>
   </table>
 
-  <button class="btn btn-primary" (click)="payAndStoreData()">Pay and Store Data</button>
+  <button class="btn btn-primary" (click)="confirmAndPay()">
+    Confirm Payment
+  </button>
+</div>
+
+<div *ngIf="showConfirmationDialog" class="confirmation-dialog">
+  <div class="confirmation-content">
+    <h2 class="dialog-title">Payment</h2>
+    <form [formGroup]="upiIdForm">
+      <!-- Add this formGroup directive -->
+      <p class="dialog-text">Enter your UPI ID:</p>
+      <input type="text" formControlName="upiId" class="dialog-input" />
+      <div
+        class="error-message"
+        *ngIf="
+          upiIdForm.get('upiId')?.hasError('required') &&
+          upiIdForm.get('upiId')?.touched
+        "
+      >
+        UPI ID is required.
+      </div>
+      <div
+        class="error-message"
+        *ngIf="upiIdForm.get('upiId')?.hasError('pattern')"
+      >
+        UPI ID format is invalid.
+      </div>
+    </form>
+    <div class="button-container">
+      <button class="btn btn-danger dialog-button" (click)="cancel()">
+        Cancel
+      </button>
+      <button class="btn btn-primary dialog-button" (click)="confirm()">
+        Pay
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSuccessMessage" class="confirmation-dialog">
+  <div class="confirmation-content">
+    <i class="fa-solid fa-circle-check fa-flip" style="color: #299e29"></i>
+    <h1>Transaction Successful</h1>
+  </div>
 </div>

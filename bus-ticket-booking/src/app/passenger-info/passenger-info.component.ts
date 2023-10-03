@@ -1,10 +1,8 @@
 // passenger-info.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SeatService } from '../services/seat.service';
 import { Seat } from '../shared/seat.model';
 
@@ -17,6 +15,8 @@ export class PassengerInfoComponent implements OnInit {
   passengerForms: FormGroup[] = [];
   selectedSeats: Seat[] = [];
   userData: any = {};
+
+  showConfirmationDialog: boolean = false;
 
   constructor(
     private seatService: SeatService,
@@ -66,20 +66,34 @@ export class PassengerInfoComponent implements OnInit {
 
   proceedToPayout(): void {
     if (this.areAllDetailsFilled()) {
-      const userData = this.selectedSeats.map((seat, i) => {
-        return {
-          seatId: seat.id,
-          name: this.passengerForms[i].get('name')?.value,
-          age: this.passengerForms[i].get('age')?.value,
-          gender: this.passengerForms[i].get('gender')?.value,
-        };
-      });
-
-      console.log('Psss', userData);
-
-      this.router.navigate(['/booking-summary'], {
-        state: { userData },
-      });
+      this.showConfirmationDialog = true;
     }
+  }
+
+  confirm(): void {
+    // Hide the confirmation dialog
+    this.showConfirmationDialog = false;
+
+    // Perform your routing logic here
+    const userData = this.selectedSeats.map((seat, i) => {
+      return {
+        seatId: seat.id,
+        name: this.passengerForms[i].get('name')?.value,
+        age: this.passengerForms[i].get('age')?.value,
+        gender: this.passengerForms[i].get('gender')?.value,
+      };
+    });
+
+    console.log('Psss', userData);
+
+    this.router.navigate(['/booking-summary'], {
+      state: { userData },
+    });
+  }
+
+  // Add a method to cancel the action
+  cancel(): void {
+    // Hide the confirmation dialog
+    this.showConfirmationDialog = false;
   }
 }

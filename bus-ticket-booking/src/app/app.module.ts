@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
       return auth;
     }),
     provideDatabase(() => getDatabase()),
+    BrowserAnimationsModule,
   ],
   providers: [FirebaseService],
   bootstrap: [AppComponent],
