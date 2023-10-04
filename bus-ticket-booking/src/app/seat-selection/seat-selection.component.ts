@@ -136,4 +136,10 @@ export class SeatSelectionComponent implements OnInit {
       'passenger-info',
     ]);
   }
+
+  backToBusesPage(): void {
+    console.log('inside seat selection');
+    this.router.navigate(['../../'], { relativeTo: this.route });
+  }
+
 }

@@ -8,6 +8,9 @@ import { SeatSelectionComponent } from './seat-selection/seat-selection.componen
 import { PassengerInfoComponent } from './passenger-info/passenger-info.component';
 import { BookingSummaryComponent } from './booking-summary/booking-summary.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { ManageBusesComponent } from './manage-buses/manage-buses.component';
+import { ViewBookingsComponent } from './view-bookings/view-bookings.component';
 
 const routes: Routes = [
   {
@@ -16,8 +19,18 @@ const routes: Routes = [
   },
   { path: 'admin-login', component: AdminLoginComponent },
   {
-    path: 'admin',
+    path: 'admin-interface',
     component: AdminInterfaceComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'manage-buses',
+    component: ManageBusesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-bookings',
+    component: ViewBookingsComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -40,7 +53,11 @@ const routes: Routes = [
     component: BookingSummaryComponent,
     canActivate: [AuthGuard],
   },
-
+  {
+    path: 'error-page',
+    component: ErrorPageComponent,
+    canActivate: [AuthGuard],
+  },
   { path: '', redirectTo: '/customer-login', pathMatch: 'full' },
 ];
 

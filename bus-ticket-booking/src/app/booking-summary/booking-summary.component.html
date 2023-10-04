@@ -20,9 +20,8 @@
     </tbody>
   </table>
 
-  <button class="btn btn-primary" (click)="confirmAndPay()">
-    Confirm Payment
-  </button>
+  <button class="btn btn-primary" (click)="confirmAndPay()">Proceed</button>
+  <button class="btn btn-danger" (click)="cancelBooking()">Cancel</button>
 </div>
 
 <div *ngIf="showConfirmationDialog" class="confirmation-dialog">
@@ -49,11 +48,11 @@
       </div>
     </form>
     <div class="button-container">
-      <button class="btn btn-danger dialog-button" (click)="cancel()">
-        Cancel
-      </button>
       <button class="btn btn-primary dialog-button" (click)="confirm()">
         Pay
+      </button>
+      <button class="btn btn-danger dialog-button" (click)="cancel()">
+        Cancel
       </button>
     </div>
   </div>

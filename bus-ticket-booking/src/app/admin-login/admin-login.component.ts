@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -7,22 +14,38 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./admin-login.component.css'],
 })
 export class AdminLoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  isSignedIn = false;
 
-  constructor(private fb: FormBuilder) {}
+  loginError: string | null = null;
+
+  loginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+  });
+
+  constructor(
+    private router: Router,
+    private firebaseService: FirebaseService
+  ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+    if (localStorage.getItem('user') !== null) this.isSignedIn = true;
+    else this.isSignedIn = false;
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      // Handle the admin login logic here, e.g., check credentials
-      // You can access form values using this.loginForm.value
-      console.log(this.loginForm.value);
+  async onSignin() {
+    const { email, password } = this.loginForm.value;
+
+    if (email === 'admin@onebus.in') {
+      await this.firebaseService.signin(email, password);
+      if (this.firebaseService.isLoggedIn) {
+        this.loginForm.reset();
+        this.isSignedIn = true;
+        this.router.navigate(['/admin-interface']);
+      }
     }
   }
 }

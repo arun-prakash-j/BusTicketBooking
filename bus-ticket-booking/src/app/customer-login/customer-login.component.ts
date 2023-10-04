@@ -45,11 +45,6 @@ export class CustomerLoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.loginForm = this.fb.group({
-    //   email: ['', [Validators.required, Validators.email]],
-    //   password: ['', [Validators.required, Validators.minLength(6)]],
-    // });
-
     if (localStorage.getItem('user') !== null) this.isSignedIn = true;
     else this.isSignedIn = false;
   }

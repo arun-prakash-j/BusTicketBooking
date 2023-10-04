@@ -25,6 +25,11 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ErrorPageComponent } from './error-page/error-page.component';
+
+import { ViewBookingsComponent } from './view-bookings/view-bookings.component';
+import { ManageBusesComponent } from './manage-buses/manage-buses.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +40,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SeatSelectionComponent,
     PassengerInfoComponent,
     BookingSummaryComponent,
+    ErrorPageComponent,
+    ManageBusesComponent,
+    ViewBookingsComponent,
   ],
   imports: [
     BrowserModule,

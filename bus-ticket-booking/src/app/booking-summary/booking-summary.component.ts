@@ -49,15 +49,17 @@ export class BookingSummaryComponent {
   }
 
   ngOnInit(): void {
-    // this.x = this.seatService.getSelectedSeatNumbers;
     console.log(this.seatService.getSelectedSeatNumbers());
     console.log('UserData', this.userData);
   }
 
   confirmAndPay(): void {
-    // Implement payment processing logic
-
     this.showConfirmationDialog = true;
+  }
+
+  cancelBooking(): void {
+    this.seatService.clearSelectedSeatsInLocalStorage();
+    this.router.navigate(['/buses']);
   }
 
   //gsadgsd
