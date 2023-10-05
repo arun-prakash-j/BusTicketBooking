@@ -28,10 +28,8 @@ export class PassengerInfoComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSeats = this.seatService.getSelectedSeatNumbers();
     if (this.selectedSeats) {
-      console.log('Selected Seats PASSENGER', this.selectedSeats);
-
-      this.passengerForms = this.selectedSeats.map(() =>
-        this.fb.group({
+      this.selectedSeats.forEach((seat) => {
+        const formGroup = this.fb.group({
           name: [
             '',
             [
@@ -41,17 +39,40 @@ export class PassengerInfoComponent implements OnInit {
             ],
           ],
           age: ['', [Validators.required, Validators.min(5)]],
-          gender: ['', Validators.required],
-        })
-      );
-    } else {
-      console.log('No selected seats data found.');
+          gender: [
+            seat.gender === 'female' ? 'female' : '',
+            Validators.required,
+          ],
+        });
+
+        if (seat.gender === 'female') {
+          formGroup.get('gender')?.disable();
+        }
+
+        this.passengerForms.push(formGroup);
+      });
     }
 
-    this.route.paramMap.subscribe((params) => {
-      const busNo = params.get('selectedBusId');
-      console.log('busNo:', busNo);
-    });
+    // console.log('Selected Seats:', this.selectedSeats);
+    // console.log('Passenger Forms:', this.passengerForms);
+
+    // if (!this.selectedSeats) {
+    //   this.selectedSeats = []; // Initialize to an empty array if undefined
+    // }
+    // this.passengerForms = this.selectedSeats.map((seat) =>
+    //   this.fb.group({
+    //     name: [
+    //       '',
+    //       [
+    //         Validators.required,
+    //         Validators.minLength(3),
+    //         Validators.pattern(/^[A-Za-z\s]+$/),
+    //       ],
+    //     ],
+    //     age: ['', [Validators.required, Validators.min(5)]],
+    //     gender: [seat.gender, { disabled: seat.gender === 'female' }],
+    //   })
+    // );
   }
 
   areAllDetailsFilled(): boolean {

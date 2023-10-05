@@ -100,6 +100,7 @@
               id="gender{{ i }}"
               formControlName="gender"
               required
+              [disabled]="selectedSeats[i].gender === 'female'"
             >
               <option value="" disabled selected>Select gender</option>
               <option value="male">Male</option>

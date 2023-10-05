@@ -112,10 +112,10 @@ export class ManageBusesComponent {
       return;
     }
 
-    // Calculate the next available key for the new bus
+    
     const nextKey = this.calculateNextKey();
 
-    // Create an object with the new bus details
+    
     const newBusData = {
       BusNo: this.newBus.busNo,
       ArriveTime: this.newBus.arriveTime,
@@ -127,22 +127,18 @@ export class ManageBusesComponent {
       Type: this.newBus.type,
     };
 
-    // Update the specific bus entry in the Firebase Realtime Database with the calculated key
     this.database
       .object(`/Bus Details/${nextKey}`)
       .update(newBusData)
       .then(() => {
-        // Data updated successfully
         console.log('Bus details added successfully');
 
-        // Call the createSeatLayout function with the new busNo
-        this.createSeatLayout(this.newBus.busNo); // Pass the new busNo here
+        this.createSeatLayout(this.newBus.busNo);
 
-        this.showAddForm = false; // Hide the add bus form
-        this.newBus = {}; // Reset the newBus object to clear the form fields
+        this.showAddForm = false;
+        this.newBus = {};
       })
       .catch((error) => {
-        // Handle errors if any
         console.error('Error adding bus details:', error);
       });
   }
@@ -157,29 +153,23 @@ export class ManageBusesComponent {
   }
 
   deleteBus(bus: any) {
-    // Check if there's a bus to delete
     if (!bus || !bus.busId) {
       console.error('Invalid bus data or busId');
-      this.cancelDelete(); // Close the modal
+      this.cancelDelete();
       return;
     }
 
-    // Get the busId to be deleted
     const busId = bus.busId;
 
-    // Delete the specific bus entry from the Firebase Realtime Database
     this.database
       .object(`/Bus Details/${busId}`)
       .remove()
       .then(() => {
-        // Data removed successfully
         console.log('Bus deleted successfully');
-        this.cancelDelete(); // Close the modal
+        this.cancelDelete();
 
-        // Remove the deleted bus from the local list to reflect the change
         this.buses = this.buses.filter((b) => b.busId !== busId);
 
-        // Delete the corresponding seat layout data from the "Seats" node
         this.database
           .object(`/Seats/${bus.busNo}`)
           .remove()
@@ -191,30 +181,27 @@ export class ManageBusesComponent {
           });
       })
       .catch((error) => {
-        // Handle errors if any
         console.error('Error deleting bus:', error);
-        this.cancelDelete(); // Close the modal
+        this.cancelDelete();
       });
   }
 
   calculateNextKey(): number {
-    // Extract the keys of existing buses
     const existingKeys: number[] = this.buses
-      .filter((bus) => bus['busId']) // Filter out buses without a 'busId' property
+      .filter((bus) => bus['busId'])
       .map((bus) => {
         const numericPart = bus['busId'];
-        return numericPart ? Number(numericPart) : 0; // Handle cases where 'busId' doesn't contain a numeric part
+        return numericPart ? Number(numericPart) : 0;
       });
 
-    // Find the maximum key value
     const maxKey = existingKeys.length > 0 ? Math.max(...existingKeys) : 0;
-    // Calculate the next key by adding 1 to the maximum key
+
     return maxKey + 1;
   }
 
   cancelAdd() {
     this.showAddForm = false;
-    // Reset the newBus object to clear the form fields
+
     this.newBus = {};
   }
 
@@ -222,7 +209,6 @@ export class ManageBusesComponent {
     this.router.navigate(['/admin-interface']);
   }
 
-  // Function to create seat layout for a bus
   createSeatLayout(busNo: string) {
     if (!busNo) {
       console.error('Invalid busNo for seat layout creation');
@@ -232,45 +218,46 @@ export class ManageBusesComponent {
     const lowerDeckSeats = [];
     const upperDeckSeats = [];
 
-    // Create 10 seater seats for the 1st column lower deck
+    // Create 20 seater seats for lower deck
     for (let i = 0; i <= 9; i++) {
-      lowerDeckSeats.push({
-        busNo: busNo,
-        deck: 'lower',
-        gender: '',
-        height: 30,
-        id: i + 1 * (i + 1),
-        isBooked: false,
-        passengerAge: '',
-        passengerName: '',
-        price: 700,
-        type: 'seater',
-        width: 30,
-        x: 75 + 50 * i,
-        y: 70,
-      });
+      if ((i + 1 * (i + 1)) % 2 != 0) {
+        lowerDeckSeats.push({
+          busNo: busNo,
+          deck: 'lower',
+          gender: '',
+          height: 30,
+          id: i + 1 * (i + 1),
+          isBooked: false,
+          passengerAge: '',
+          passengerName: '',
+          price: 700,
+          type: 'seater',
+          width: 30,
+          x: 75 + 50 * i,
+          y: 70,
+        });
+      }
+
+      if ((i + 1 * (i + 2)) % 2 == 0) {
+        lowerDeckSeats.push({
+          busNo: busNo,
+          deck: 'lower',
+          gender: '',
+          height: 30,
+          id: i + 1 * (i + 2),
+          isBooked: false,
+          passengerAge: '',
+          passengerName: '',
+          price: 700,
+          type: 'seater',
+          width: 30,
+          x: 75 + 50 * i,
+          y: 110,
+        });
+      }
     }
 
-    // Create 10 seater seats for the 2nd column lower deck
-    for (let i = 0; i <= 9; i++) {
-      lowerDeckSeats.push({
-        busNo: busNo,
-        deck: 'lower',
-        gender: '',
-        height: 30,
-        id: i + 1 * (i + 2),
-        isBooked: false,
-        passengerAge: '',
-        passengerName: '',
-        price: 700,
-        type: 'seater',
-        width: 30,
-        x: 75 + 50 * i,
-        y: 110,
-      });
-    }
-
-    // Create 5 sleeper seats for the 3rd column lower deck
+    // Create 5 sleeper seats for the lower deck
     for (let i = 0; i <= 4; i++) {
       lowerDeckSeats.push({
         busNo: busNo,
@@ -289,45 +276,46 @@ export class ManageBusesComponent {
       });
     }
 
-    // Create 5 sleeper seats for the 1st column upper deck
+    // Create 10 sleeper seats for the upper deck
     for (let i = 0; i <= 4; i++) {
-      upperDeckSeats.push({
-        busNo: busNo,
-        deck: 'upper',
-        gender: '',
-        height: 35,
-        id: i * 2 + 26,
-        isBooked: false,
-        passengerAge: '',
-        passengerName: '',
-        price: 1100,
-        type: 'sleeper',
-        width: 75,
-        x: 75 + 100 * i,
-        y: 70,
-      });
+      if ((i * 2 + 26) % 2 == 0) {
+        upperDeckSeats.push({
+          busNo: busNo,
+          deck: 'upper',
+          gender: '',
+          height: 35,
+          id: i * 2 + 26,
+          isBooked: false,
+          passengerAge: '',
+          passengerName: '',
+          price: 1100,
+          type: 'sleeper',
+          width: 75,
+          x: 75 + 100 * i,
+          y: 70,
+        });
+      }
+
+      if ((i * 2 + 27) % 2 != 0) {
+        upperDeckSeats.push({
+          busNo: busNo,
+          deck: 'upper',
+          gender: '',
+          height: 35,
+          id: i * 2 + 27,
+          isBooked: false,
+          passengerAge: '',
+          passengerName: '',
+          price: 1100,
+          type: 'sleeper',
+          width: 75,
+          x: 75 + 100 * i,
+          y: 110,
+        });
+      }
     }
 
-    // Create 5 sleeper seats for the 2nd column upper deck
-    for (let i = 0; i <= 4; i++) {
-      upperDeckSeats.push({
-        busNo: busNo,
-        deck: 'upper',
-        gender: '',
-        height: 35,
-        id: i * 2 + 27,
-        isBooked: false,
-        passengerAge: '',
-        passengerName: '',
-        price: 1100,
-        type: 'sleeper',
-        width: 75,
-        x: 75 + 100 * i,
-        y: 110,
-      });
-    }
-
-    // Create 5 sleeper seats for the 3rd column upper deck
+    // Create 5 sleeper seats for the upper deck
     for (let i = 0; i <= 4; i++) {
       upperDeckSeats.push({
         busNo: busNo,
